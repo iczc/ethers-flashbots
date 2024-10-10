@@ -70,6 +70,14 @@ pub struct BundleRequest {
     #[serde(serialize_with = "serialize_uuid_as_string")]
     uuid: Option<Uuid>,
 
+    #[serde(rename = "refundPercent")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    refund_percent: Option<u64>,
+
+    #[serde(rename = "refundRecipient")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    refund_recipient: Option<Address>,
+
     #[serde(rename = "stateBlockNumber")]
     #[serde(skip_serializing_if = "Option::is_none")]
     simulation_block: Option<U64>,
@@ -193,6 +201,24 @@ impl BundleRequest {
     /// This is used for bundle replacements or cancellations using eth_cancelBundle
     pub fn set_uuid(mut self, uuid: Uuid) -> Self {
         self.uuid = Some(uuid);
+        self
+    }
+
+    pub fn refund_percent(&self) -> Option<u64> {
+        self.refund_percent
+    }
+
+    pub fn set_refund_percent(mut self, refund_percent: u64) -> Self {
+        self.refund_percent = Some(refund_percent);
+        self
+    }
+
+    pub fn refund_recipient(&self) -> Option<Address> {
+        self.refund_recipient
+    }
+
+    pub fn set_refund_recipient(mut self, refund_recipient: Address) -> Self {
+        self.refund_recipient = Some(refund_recipient);
         self
     }
 
